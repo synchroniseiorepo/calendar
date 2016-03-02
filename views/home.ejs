@@ -1,0 +1,60 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="bootflat/css/bootflat.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="bootstrap-social.css">
+</head>
+<body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container" style="width: 100%">
+            <div style="width: 45%; display: inline-block; text-align:center"><a href="https://www.synchronise.io"><img src="https://images.synchronise.io/synchroniseSquare.png" style="height: 50px;"></a></div>
+            <div style="width: 45%; display: inline-block; text-align:center"><a type="submit" class="btn btn-success" style="margin-top: 7px" href="https://www.synchronise.io">Discover Synchronise</a></div>
+        </div>
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="jumbotron">
+            <div class="container">
+                <h1>Social Calendar</h1>
+                <p>Display your calendar events from your favourite social services: Facebook, Google, Evernote, Yahoo, Outlook</p>
+            </div>
+        </div>
+
+        <div class="container" id="calendar">
+
+        </div>
+
+        <div class="container" style="text-align: center">
+            <hr>
+            <footer>
+                <p>© <%= new Date().getFullYear()%> <a href="https://www.synchronise.io">Synchronise IO LTD</a></p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="https://apis.google.com/js/client.js?onload=checkAuth"></script>
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+              appId: '1511026749206460',
+              cookie: true, // This is important, it's not enabled by default
+              version: 'v2.2'
+            });
+        };
+
+        (function(d, s, id){
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {return;}
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <script type="text/javascript" src="persist.js" charset="utf-8"></script>
+    <script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+    <script type="text/javascript" src="jquery.1.12.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="bootstrap.min.js" charset="utf-8"></script>
+</body>
+</html>
