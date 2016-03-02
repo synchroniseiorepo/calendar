@@ -27,11 +27,6 @@ var Calendar = React.createClass({
                 img: "microsoft.png",
                 className: "btn btn-block btn-social btn-microsoft"
             }, {
-                title: "Evernote",
-                name: "evernote",
-                img: "evernote.png",
-                className: "btn btn-block btn-social btn-evernote"
-            }, {
                 title: "Facebook",
                 name: "facebook",
                 className: "btn btn-block btn-social btn-facebook"
@@ -46,30 +41,36 @@ var Calendar = React.createClass({
     signin: function(network){
         var target = this;
 
-        switch (network) {
-            case "google":{
-                gapi.auth.authorize({
-                    'client_id': '118453749266-ga2nefgvliioui3ft2p6kosj51h9giga.apps.googleusercontent.com',
-                    'scope': ["https://www.googleapis.com/auth/calendar.readonly"].join(' '),
-                    'immediate': true
-                }, function(authResult){
-                    if (authResult && !authResult.error) {
-                        authorizeDiv.style.display = 'none';
-                        target.loadGoogleCalendar();
-                    }
-                });
-            }
-                break;
+        if(!target.state.tokens.hasOwnProperty(network)){
+            switch (network) {
+                case "google":{
+                    gapi.auth.authorize({
+                        'client_id': '118453749266-ga2nefgvliioui3ft2p6kosj51h9giga.apps.googleusercontent.com',
+                        'scope': ["https://www.googleapis.com/auth/calendar.readonly"].join(' '),
+                        'immediate': true
+                    }, function(authResult){
+                        if (authResult && !authResult.error) {
+                            authorizeDiv.style.display = 'none';
+                            target.loadGoogleCalendar();
+                        }
+                    });
+                }
+                    break;
 
-            case "facebook":{
-                FB.login(function(response) {
-                    store.set('facebookToken', response.authResponse.accessToken);
-                    store.save();
-                    target.refreshTokenValues();
-                }, {scope: 'user_events'});
-                return false;
+                case "facebook":{
+                    FB.login(function(response) {
+                        store.set('facebookToken', response.authResponse.accessToken);
+                        store.save();
+                        target.refreshTokenValues();
+                    }, {scope: 'user_events'});
+                    return false;
+                }
+                    break;
             }
-                break;
+        }else{
+            store.set('facebookToken', false);
+            store.save();
+            target.refreshTokenValues();
         }
     },
     refreshTokenValues: function(){
@@ -80,6 +81,8 @@ var Calendar = React.createClass({
             var row = target.state.networks[i];
             if(store.get(row.name+'Token')){
                 tokens[row.name] = store.get(row.name);
+            }else{
+                tokens[row.name] = false;
             }
         }
 
